@@ -1,0 +1,30 @@
+title: "kito calculator"
+version: "0.1.0"
+author: "Mohbu"
+width: 320
+height: 500
+
+entry:
+  main: "src/main.cpp"
+  view: "views/main.yaml"
+
+assets:
+  root: "./assets"
+
+  styles:
+    main: "./styles/main.kss"
+
+  fonts:
+    - name: "Inter"
+      path: "./assets/fonts/Inter.ttf"
+
+aliases:
+  models: ""
+  views: ""
+  viewModels: ""
+
+runtime:
+  renderer: "sdl"
+
+build:
+  output_dir: "bin/"

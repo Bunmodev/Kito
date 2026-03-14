@@ -1,0 +1,12 @@
+name: "main"
+properties:
+  # The value currently shown on the calc_display
+  display_value: "0"
+  
+  # Internal state for the calculation
+  previous_value: "0"
+  current_operator: ""
+  
+  # Boolean flags for logic control
+  is_new_input: true
+  has_error: false

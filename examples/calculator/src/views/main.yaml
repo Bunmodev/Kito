@@ -1,0 +1,131 @@
+link:
+  alias: "main"
+  model: ["main"]
+  viewModel: "main"
+  styles: "main"
+
+widgets:
+  # Display Screen
+  - id: "calc_display"
+    type: "panel"
+    text: "$display_value"
+    style: { background: "#1a1a1a", textColor: "#ffffff", fontSize: 32 }
+    position: { x: 10, y: 40 }
+    size: { width: 300, height: 90 }
+    # padding: { right: 20, top: 20 }
+    align: "right"
+
+  
+  - id: "buttons_container"
+    type: "container"
+    position: { x: 10, y: 180}
+    size: { width: 300, height: 310 }
+    display: "grid"
+    grid-columns: [4, 75] 
+    # grid-rows: "6"
+    gap: "2"
+    widgets:
+
+      # row 1
+      - id: "btn_percent"
+        type: "button"
+        text: "%"
+        # position: { x: 12, y: 0}
+        # size: { width: 60, height: 80 }
+
+      - id: "btn_ce"
+        type: "button"
+        text: "CE"
+
+      - id: "btn_percent"
+        type: "button"
+        text: "C"
+
+      - id: "btn_erase"
+        type: "button"
+        text: "erase"
+
+        # row 2
+      - id: "btn_one_of_x"
+        type: "button"
+        text: "1/x"
+
+      - id: "btn_squared"
+        type: "button"
+        text: "x2"
+
+      - id: "btn_squareRoot_2"
+        type: "button"
+        text: "2 root x"
+
+      - id: "btn_divide"
+        type: "button"
+        text: "divide"
+
+        # row 3
+      - id: "btn_seven"
+        type: "button"
+        text: "7"
+
+      - id: "btn_eight"
+        type: "button"
+        text: "8"
+
+      - id: "btn_nine"
+        type: "button"
+        text: "9"
+
+      - id: "btn_multiply"
+        type: "button"
+        text: "X"
+
+        # row 4
+      - id: "btn_four"
+        type: "button"
+        text: "4"
+
+      - id: "btn_five"
+        type: "button"
+        text: "5"
+
+      - id: "btn_six"
+        type: "button"
+        text: "6"
+
+      - id: "btn_minus"
+        type: "button"
+        text: "-"
+
+        # row 5
+      - id: "btn_one"
+        type: "button"
+        text: "1"
+
+      - id: "btn_two"
+        type: "button"
+        text: "2"
+
+      - id: "btn_three"
+        type: "button"
+        text: "3"
+
+      - id: "btn_plus"
+        type: "button"
+        text: "+"
+
+        # row 6
+      - id: "btn_sign"
+        type: "button"
+        text: "+/-"
+
+      - id: "btn_zero"
+        type: "button"
+        text: "0"
+
+      - id: "btn_decimal"
+        type: "button"
+        text: "."
+
+      - id: "btn_equals"
+        type: "button"
+        text: "="

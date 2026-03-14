@@ -1,0 +1,16 @@
+id: "buttons_container"
+style:
+  # Layout
+  display: "grid"
+  padding: [10, 20] # Top/Bottom, Left/Right
+  gap: 8
+  
+  # Visuals
+  background-color: "#2d2d2d"
+  border-radius: 4
+  border: { width: 1, color: "#444", type: "solid" }
+  
+  # States
+  on-hover:
+    background-color: "#3d3d3d"
+    cursor: "hand"

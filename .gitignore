@@ -1,0 +1,46 @@
+# --- Build Outputs ---
+build/
+bin/
+lib/
+out/
+
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# --- CMake ---
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# --- Ninja ---
+*.ninja
+.ninja_log
+.ninja_deps
+
+# --- IDEs ---
+.vscode/
+.idea/
+.vs/
+
+*.user
+*.swp
+*.swo
+
+# --- External Dependencies (ignore their builds only) ---
+external/**/build/
+external/**/bin/
+external/**/CMakeFiles/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Logs / dumps ---
+*.log
+*.dmp
