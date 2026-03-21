@@ -27,8 +27,9 @@ set(ENGINE_SRC
     "src/services/configManager.cpp"
     "src/services/viewManager.cpp" 
     "src/services/vfs.cpp"
+    "src/services/messageBus.cpp"  
     "src/mvvm/model.cpp"
-    "src/mvvm/view.cpp" 
+    "src/mvvm/view.cpp"  
     "src/mvvm/viewModel.cpp"
 )
 
@@ -45,28 +46,7 @@ target_include_directories(kito PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/external/miniaudio
 )
 
-macro(kito_configure_assets TARGET_NAME)
-    # Use CURRENT_SOURCE_DIR so it finds the views for the specific example
-    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/views"
-            "$<TARGET_FILE_DIR:${TARGET_NAME}>/src/views"
-        COMMENT "Deploying Kito Views for ${TARGET_NAME}..."
-    )
-
-    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/models"
-            "$<TARGET_FILE_DIR:${TARGET_NAME}>/src/models"
-        COMMENT "Deploying Kito Models for ${TARGET_NAME}..."
-    )
-
-    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/styles"
-            "$<TARGET_FILE_DIR:${TARGET_NAME}>/styles"
-        COMMENT "Deploying Kito Styles for ${TARGET_NAME}..."
-    )
-endmacro() 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(kitoConfig)  
 
 add_subdirectory(examples) 

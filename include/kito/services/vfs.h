@@ -11,6 +11,9 @@ namespace kito::services {
 
         protected:
             std::filesystem::path m_basePath;
+            std::filesystem::path m_resourcePath;
+            std::map<std::string, std::filesystem::path> m_mountPoints;
+            bool m_isBundled;
             std::filesystem::path m_modelPath;
             std::filesystem::path m_viewPath;
             std::filesystem::path m_viewModelPath;
@@ -35,13 +38,13 @@ namespace kito::services {
             YAML::Node getStyles(const std::string& viewName);
 
             YAML::Node getModel(const std::string& viewName);
-
-
-
-        private:
-
+            
+            private:
+            
             void discoverModels(const std::filesystem::path& folder);
             void discoverViews(const std::filesystem::path& folder);
             void discoverViewModels(const std::filesystem::path& folder);
+            void mount(const std::string& resourceName, const std::filesystem::path& resourcePath);
+            YAML::Node resolve(const std::string& resourceName, const std::string& resourceType);
     };
 }

@@ -1,12 +1,14 @@
 #pragma once
+#include <iostream>
+#include <string>
 
 namespace kito::mvvm {
     
     class ViewModel {
         public:
-            ViewModel();
-            ~ViewModel();
+            ViewModel() = default;
+            ~ViewModel() = default;
 
-            // Add any necessary member variables and methods here
+            void onClick(std::string id);
     };
 }
