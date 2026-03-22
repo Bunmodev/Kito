@@ -30,16 +30,21 @@ function(kito_register_vms VM_DIR MAIN_TARGET)
         add_library(${VM_NAME} SHARED ${VM_SOURCE})
         
         target_link_libraries(${VM_NAME} PRIVATE kito)
+
+        string(SHA1 VM_HASH ${VM_NAME})
+        string(SUBSTRING ${VM_HASH} 0 4 VM_ID)
         
         set_target_properties(${VM_NAME} PROPERTIES 
+            SUFFIX ".dat"
             # Force DLL into /bin
             RUNTIME_OUTPUT_DIRECTORY "${LOCAL_OUT}/bin"
             LIBRARY_OUTPUT_DIRECTORY "${LOCAL_OUT}/bin"
             # Keep the .dll.a "junk" out of the clean folders
             ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/artifacts"
+            OUTPUT_NAME "ksvc_${VM_ID}"
             PREFIX "" 
         )
-        add_dependencies(${MAIN_TARGET} ${VM_NAME})
+        add_dependencies(${MAIN_TARGET} ${VM_NAME}) 
     endforeach()
 endfunction()
 

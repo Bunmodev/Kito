@@ -7,6 +7,7 @@
 #include <kito/core/events.h>
 #include <kito/mvvm/view.h>
 #include <kito/mvvm/model.h>
+#include <kito/mvvm/viewModel.h>
 #include <kito/services/vfs.h>
 
 namespace kito::ui {
@@ -24,6 +25,7 @@ namespace kito::Graphics {
 namespace kito::mvvm {
     class View;
     class Model;
+    class ViewModel;
 }
 
 namespace kito::services {

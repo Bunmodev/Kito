@@ -4,6 +4,7 @@ namespace kito::mvvm {
 
     View::View(const std::string& name) {
         m_name = name;
+        // m_viewModel = nullptr;
     }
 
     void View::setWidgets(std::vector<std::unique_ptr<kito::ui::Widget>> widgets) {
@@ -45,4 +46,10 @@ namespace kito::mvvm {
         m_models.push_back(std::move(newModel));
         std::cout << "[view]: binding yaml model" << std::endl;
     }
+
+    void bindViewModel(const std::unique_ptr<ViewModel>& vm) {
+        // m_viewModel = std::move(vm);
+        std::cout << "binding vm" << std::endl;
+    }
+
 }

@@ -17,16 +17,12 @@ namespace kito {
         auto windowConfig = m_configManager->getWindowConfig();
         m_window->Create(windowConfig);
 
-        // m_vfs->crawlViews();
-
         auto entry_view = m_vfs->getView("main");
         m_viewManager->loadView("main", entry_view, *m_window);
-        
         
         std::cout << "app init sucessfully" << std::endl;
         
         m_renderer = std::make_unique<Graphics::Renderer>(m_window->GetRenderer());
-
         m_renderer->clear(30, 30, 30);
         m_viewManager->renderView(*m_renderer, *m_window);
         m_renderer->flush();

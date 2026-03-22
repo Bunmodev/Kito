@@ -10,22 +10,27 @@ namespace kito::services {
 
         if (std::filesystem::exists(m_resourcePath)) {
             // Option B: Mount the binary blob
-            mount("views/",  m_resourcePath); 
-            mount("models/", m_resourcePath);
             m_viewPath = m_resourcePath.string();
             m_modelPath = m_resourcePath.string();
+            m_viewModelPath = (std::filesystem::path(m_basePath) / "bin").string();
+            mount("views/",  m_resourcePath); 
+            mount("models/", m_resourcePath);
+            mount("viewModels/", m_resourcePath);
         } else {
             // Option A/Dev: Mount the loose folders
             // We use the same virtual prefix so the rest of the engine doesn't change
             m_viewPath = (std::filesystem::path(m_basePath) / "assets" / "views").string();
             m_modelPath = (std::filesystem::path(m_basePath) / "assets" / "models").string();
+            m_viewModelPath = (std::filesystem::path(m_basePath) / "bin").string();
             mount("views/",  m_viewPath);
             mount("models/", m_modelPath);
+            mount("viewModels/", m_viewModelPath);
         }
         
         // Auto-crawl on startup so the registry is ready
         crawlViews();
         crawlModels();
+        crawlViewModels();
     }
 
     VFS::~VFS() = default;
@@ -110,6 +115,28 @@ namespace kito::services {
                     m_modelRegistry[key] = entry.path().string();
                     
                     std::cout << "[Kito VFS]: Found model '" << key << "' (" << ext << ") at " << entry.path() << std::endl;
+                }
+            }
+        }
+    }
+
+    void VFS::crawlViewModels() {
+        m_viewModelRegistry.clear(); // Registry is a std::map<std::string, std::string> in your header
+
+        if (!std::filesystem::exists(m_viewModelPath) || !std::filesystem::is_directory(m_viewModelPath)) {
+            std::cerr << "[Kito VFS]: Warning - ViewModel path does not exist: " << m_viewModelPath << std::endl;
+            return;
+        }
+
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(m_viewModelPath)) {
+            if (entry.is_regular_file()) {
+                std::string ext = entry.path().extension().string();
+                
+                if (ext == ".dat" || ext == ".kto") {
+                    std::string key = entry.path().stem().string();
+                    m_modelRegistry[key] = entry.path().string();
+                    
+                    std::cout << "[Kito VFS]: Found viewModel '" << key << "' (" << ext << ") at " << entry.path() << std::endl;
                 }
             }
         }
@@ -202,5 +229,5 @@ namespace kito::services {
 
         return YAML::Node();
     }
-
+ 
 }
