@@ -135,3 +135,27 @@ void Widget::setDesiredDimensions(int width, int height) {
 }
 
 Style Widget::getBakedStyle() const { return style; };
+
+
+bool Widget::isHit(float px, float py) const {
+    // Reuses the Rect::contains method you already defined
+    return bounds.contains(px, py);
+}
+
+// In Widget.cpp
+Widget* Widget::findTarget(float x, float y) {
+    // 1. Basic Guard (Visibility and Bounds)
+    if (!visible || !enabled || !bounds.contains(x, y)) {
+        return nullptr;
+    }
+
+    // 2. Recursive Check: Look at children in REVERSE (top-most Z-order first)
+    for (auto it = children.rbegin(); it != children.rend(); ++it) {
+        Widget* target = (*it)->findTarget(x, y);
+        if (target) return target; // A child (like a button) was hit
+    }
+
+    // 3. Leaf Hit: No children were hit, so the click is on this widget itself
+    return this; 
+}
+

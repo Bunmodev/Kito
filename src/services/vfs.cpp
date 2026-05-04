@@ -121,25 +121,39 @@ namespace kito::services {
     }
 
     void VFS::crawlViewModels() {
-        m_viewModelRegistry.clear(); // Registry is a std::map<std::string, std::string> in your header
+        m_viewModelRegistry.clear(); 
 
-        if (!std::filesystem::exists(m_viewModelPath) || !std::filesystem::is_directory(m_viewModelPath)) {
-            std::cerr << "[Kito VFS]: Warning - ViewModel path does not exist: " << m_viewModelPath << std::endl;
-            return;
-        }
+        if (!std::filesystem::exists(m_viewModelPath)) return;
 
         for (const auto& entry : std::filesystem::recursive_directory_iterator(m_viewModelPath)) {
             if (entry.is_regular_file()) {
                 std::string ext = entry.path().extension().string();
                 
-                if (ext == ".dat" || ext == ".kto") {
-                    std::string key = entry.path().stem().string();
-                    m_modelRegistry[key] = entry.path().string();
+                // Allow .dll for your Debug builds so you don't get WinError 0!
+                if (ext == ".dat" || ext == ".dll" || ext == ".kto") {
+                    std::string physicalName = entry.path().stem().string();
+                    std::string fullPath = entry.path().string();
+
+                    // THE BRIDGE: Map the obfuscated hash to the 'main' alias
+                    if(physicalName == "SDL3") continue;
+                    if (physicalName == "ksvc_b28b" || physicalName == "main") {
+                        m_viewModelRegistry["main"] = fullPath;
+                    } else {
+                        m_viewModelRegistry[physicalName] = fullPath;
+                    }
                     
-                    std::cout << "[Kito VFS]: Found viewModel '" << key << "' (" << ext << ") at " << entry.path() << std::endl;
+                    std::cout << "[Kito VFS]: Registered '" << physicalName << "' as ViewLogic." << std::endl;
                 }
             }
         }
+    }
+
+    std::filesystem::path VFS::getViewModelPath(const std::string& name) {
+        if (m_viewModelRegistry.count(name)) {
+            return m_viewModelRegistry[name]; // Now returns the full file path string
+        }
+        // Fallback: return the directory (current behavior, causes the error)
+        return ""; 
     }
 
     void VFS::mount(const std::string& virtualPrefix, const std::filesystem::path& physicalPath) {

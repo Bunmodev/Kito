@@ -5,24 +5,49 @@ namespace kito::services {
     ViewManager::ViewManager() {
         m_inflate = std::make_unique<ui::Inflate>();
         m_vfs = std::make_unique<VFS>();
+        m_vmManager = std::make_unique<ViewModelManager>(*m_vfs);
     }
 
     void ViewManager::loadView(const std::string& name, const YAML::Node& node, Window& window) {
         auto newView = std::make_unique<mvvm::View>(name);
 
-        std::vector<std::string> models = node["link"]["model"].as<std::vector<std::string>>();
-        for(const std::string model: models) {
-            auto yamlModel = m_vfs->getModel(model);
-            newView->bindYamlModel(yamlModel);
+        // 1. Handle Models
+        if (node["link"]["model"]) {
+            std::vector<std::string> models = node["link"]["model"].as<std::vector<std::string>>();
+            for(const std::string& modelName : models) {
+                auto yamlModel = m_vfs->getModel(modelName);
+                newView->bindYamlModel(yamlModel);
+            }
         }
 
-        std::cout << "current models in view: " << models.size() << std::endl;
-        
-        // Inflate ONCE
+        // 2. Handle ViewModel (The .dat hex-link)
+        if (node["link"]["viewModel"]) {
+            std::string vmKey = node["link"]["viewModel"].as<std::string>();
+            
+            // CRITICAL: Load it first! This triggers the VFS path lookup and LoadLibrary
+            m_vmManager->loadViewModel(vmKey);
+            
+            // Now get the living instance from the registry
+            mvvm::ViewModel* vm = m_vmManager->getViewModel(vmKey);
+            
+            if (vm) {
+                newView->bindViewModel(vm);
+            } else {
+                std::cerr << "[Kito UI]: Failed to bind ViewModel: " << vmKey << std::endl;
+            }
+        }
+
+        // 3. Inflate and Set
         auto widgets = m_inflate->inflateYaml(node, window);
-        newView->setWidgets(std::move(widgets));
         
+        // Pro Tip: If your widgets need to talk to the VM immediately, 
+        // you should pass the 'vm' pointer into the inflator here.
+        newView->setWidgets(std::move(widgets));
+
         m_activeView = std::move(newView);
+        
+        // std::cout << "[Kito UI]: View '" << name << "' loaded with " 
+        //         << (m_activeView->hasViewModel() ? "active" : "no") << " logic." << std::endl;
     }
 
     mvvm::View* ViewManager::getView(const std::string& name, Window& window) {

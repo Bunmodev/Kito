@@ -19,7 +19,7 @@ widgets:
   - id: "buttons_container"
     type: "container"
     position: { x: 10, y: 180}
-    size: { width: 300, height: 310 }
+    size: { width: 300, height: 410 }
     display: "grid"
     grid-columns: [4, 75] 
     # grid-rows: "6"
@@ -37,7 +37,7 @@ widgets:
         type: "button"
         text: "CE"
 
-      - id: "btn_percent"
+      - id: "btn_del"
         type: "button"
         text: "C"
 

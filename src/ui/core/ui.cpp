@@ -4,6 +4,7 @@ namespace kito::ui_factory {
 
     std::unique_ptr<kito::ui::Widget> createWidget(const YAML::Node& node, Window& window) {
         std::string type = node["type"].as<std::string>("unknown");
+        std::string id = node["id"].as<std::string>(type);
 
         // int windowWidth = config["window"]["width"].as<int>(800);
         // int windowHeight = config["window"]["height"].as<int>(600);
@@ -43,7 +44,7 @@ namespace kito::ui_factory {
                 h = normH; 
             }
 
-            auto btn = std::make_unique<kito::ui::Button>("Button", x, y, w, h);
+            auto btn = std::make_unique<kito::ui::Button>(id, x, y, w, h);
 
             // ! Handle Box Model Properties (margin, border, padding, content)
             // auto asign the size to the content of the widget for now, we can add more complex content handling later
@@ -106,7 +107,7 @@ namespace kito::ui_factory {
                 h = normH; 
             }
 
-            auto panel = std::make_unique<kito::ui::Panel>("Panel", x, y, w, h);
+            auto panel = std::make_unique<kito::ui::Panel>(id, x, y, w, h);
 
             // ! Handle Box Model Properties (margin, border, padding, content)
             if (node["margin"]) {
@@ -163,7 +164,7 @@ namespace kito::ui_factory {
                 h = normH; 
             }
 
-            auto container = std::make_unique<kito::ui::Container>("Container", x, y, w, h);
+            auto container = std::make_unique<kito::ui::Container>(id, x, y, w, h);
 
             // ! Handle Box Model Properties (margin, border, padding, content)
             if (node["margin"]) {

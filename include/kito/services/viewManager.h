@@ -9,6 +9,7 @@
 #include <kito/mvvm/model.h>
 #include <kito/mvvm/viewModel.h>
 #include <kito/services/vfs.h>
+#include <kito/services/viewModelManager.h>
 
 namespace kito::ui {
     class Inflate;
@@ -56,6 +57,7 @@ namespace kito::services {
             std::unique_ptr<mvvm::View> m_activeView;
             std::unordered_map<std::string, ViewEntry> m_registry;
             std::unique_ptr<VFS> m_vfs;
+            std::unique_ptr<ViewModelManager> m_vmManager;
 
     };
 }

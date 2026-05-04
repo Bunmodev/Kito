@@ -1,9 +1,15 @@
 #include <kito/mvvm/viewModel.h>
 
-int main () {
-    kito::mvvm::ViewModel vm;
+class CalculatorViewModel : public kito::mvvm::ViewModel {
+public:
+    void onClick(std::string id) override {
+        if(id == "btn_seven") {
 
-    vm.onClick("btn_percent");
+            std::cout << "Calc clicked: " << id << std::endl;
+        }
+    }
+};
 
-    return 0;     
-}
+// This tells the compiler EXACTLY which class to export.
+// No more "expected a type specifier" errors.
+KITO_REGISTER_VM(CalculatorViewModel)

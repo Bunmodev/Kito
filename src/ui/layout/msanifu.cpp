@@ -147,8 +147,8 @@ namespace kito::layout {
             if (widget->getDisplay().type == "grid") {
                 // Grid logic: Sum of children widths/heights + gaps
                 intrinsicSize = computeGrid(*widget);
-                std::cout << "intrinsicwidth: " << intrinsicSize.width << std::endl;
-                std::cout << "intrinsicHeight: " << intrinsicSize.height << std::endl;
+                // std::cout << "intrinsicwidth: " << intrinsicSize.width << std::endl;
+                // std::cout << "intrinsicHeight: " << intrinsicSize.height << std::endl;
                 // intrinsicHeight = calculateGridHeight(widget);
             } else {
                 // Leaf logic (Button/Text): Just use YAML baseBounds + Nakshi styles
