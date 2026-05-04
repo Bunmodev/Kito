@@ -23,6 +23,6 @@ namespace kito::ui {
             child->draw(renderer);
         }
 
-        std::cout << "container children number: " << children.size() << std::endl;
+        // std::cout << "container children number: " << children.size() << std::endl;
     }
 }

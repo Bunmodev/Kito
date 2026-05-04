@@ -17,8 +17,22 @@ namespace kito::mvvm {
 
     // The View handles its own events by passing them down
     void View::handleEvent(const KitoEvent& event) {
-        for (auto& widget : m_widgets) {
-            widget->handleEvent(event);
+        if (event.type == KitoEvent::Type::MouseButtonDown) {
+            for (auto it = m_widgets.rbegin(); it != m_widgets.rend(); ++it) {
+                // This will drill through the Container to find "btn_7"
+                kito::ui::Widget* target = (*it)->findTarget(event.mouse.x, event.mouse.y);
+                
+                if (target) {
+                    // Internal Widget logic (visual states, etc.)
+                    target->onClick(); 
+
+                    // ViewModel link (Calculator logic)
+                    if (m_viewModel) {
+                        m_viewModel->onClick(target->getId());
+                    }
+                    break; // Stop after the first hit to prevent "click-through"
+                }
+            }
         }
     }
 
@@ -47,9 +61,11 @@ namespace kito::mvvm {
         std::cout << "[view]: binding yaml model" << std::endl;
     }
 
-    void bindViewModel(const std::unique_ptr<ViewModel>& vm) {
-        // m_viewModel = std::move(vm);
-        std::cout << "binding vm" << std::endl;
+    void View::bindViewModel(ViewModel* vm) {
+        m_viewModel = vm;
+        if (m_viewModel) {
+            std::cout << "[Kito View]: Bound to dynamic logic." << std::endl;
+        }
     }
 
 }

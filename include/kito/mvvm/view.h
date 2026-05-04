@@ -29,12 +29,12 @@ namespace kito::mvvm {
             void handleEvent(const KitoEvent& event);
             void render(Graphics::Renderer& renderer);
             void bindYamlModel(const YAML::Node& yamlModel);
-            void bindViewModel(const std::unique_ptr<ViewModel>& vm);
+            void bindViewModel(ViewModel* vm);
 
         private:
             std::string m_name;
             std::vector<std::unique_ptr<kito::ui::Widget>> m_widgets;
             std::vector<std::unique_ptr<Model>> m_models;
-            std::unique_ptr<ViewModel> m_viewModel;
+            ViewModel* m_viewModel = nullptr;
     };
 }

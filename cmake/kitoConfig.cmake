@@ -31,19 +31,29 @@ function(kito_register_vms VM_DIR MAIN_TARGET)
         
         target_link_libraries(${VM_NAME} PRIVATE kito)
 
-        string(SHA1 VM_HASH ${VM_NAME})
-        string(SUBSTRING ${VM_HASH} 0 4 VM_ID)
-        
+        # 1. Determine Naming Strategy based on Build Type
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+            # --- DEBUG MODE: Transparent & Traceable ---
+            set(FINAL_NAME "${VM_NAME}") # "main"
+            set(FINAL_EXT ".dll")        # Standard extension for debugger symbols
+        else()
+            # --- RELEASE MODE: Obfuscated & Tight ---
+            string(SHA1 VM_HASH ${VM_NAME})
+            string(SUBSTRING ${VM_HASH} 0 4 VM_ID)
+            set(FINAL_NAME "ksvc_${VM_ID}") # "ksvc_b28b"
+            set(FINAL_EXT ".dat")           # Obfuscated extension
+        endif()
+
+        # 2. Apply Properties
         set_target_properties(${VM_NAME} PROPERTIES 
-            SUFFIX ".dat"
-            # Force DLL into /bin
+            SUFFIX "${FINAL_EXT}"
             RUNTIME_OUTPUT_DIRECTORY "${LOCAL_OUT}/bin"
             LIBRARY_OUTPUT_DIRECTORY "${LOCAL_OUT}/bin"
-            # Keep the .dll.a "junk" out of the clean folders
             ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/artifacts"
-            OUTPUT_NAME "ksvc_${VM_ID}"
+            OUTPUT_NAME "${FINAL_NAME}"
             PREFIX "" 
         )
+        
         add_dependencies(${MAIN_TARGET} ${VM_NAME}) 
     endforeach()
 endfunction()

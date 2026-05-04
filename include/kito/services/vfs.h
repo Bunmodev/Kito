@@ -4,6 +4,11 @@
 #include <iostream>
 #include <filesystem>
 #include <map>
+#include <kito/mvvm/viewModel.h>
+
+namespace kito::mvvm {
+    class ViewModel;
+}
 
 namespace kito::services {
     
@@ -34,9 +39,12 @@ namespace kito::services {
             YAML::Node getView(const std::string& viewName);
             std::filesystem::path getViewPath() { return m_viewPath; };
             void setViewPath(const std::string& viewPath);
+            
+            // std::filesystem::path getViewModelPath() { return m_viewModelPath; };
+            std::filesystem::path getViewModelPath(const std::string& name);
+
 
             YAML::Node getStyles(const std::string& viewName);
-
             YAML::Node getModel(const std::string& viewName);
             
             private:

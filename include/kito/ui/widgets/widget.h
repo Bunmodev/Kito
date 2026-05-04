@@ -14,138 +14,141 @@ namespace kito::Graphics {
 
 namespace kito::ui {
 
-struct Rect {
-    float x, y, width, height;
-    bool contains(float px, float py) const;
-};
+    struct Rect {
+        float x, y, width, height;
+        bool contains(float px, float py) const;
+    };
 
-struct Margin {
-    float left, right, top, bottom;
-};
+    struct Margin {
+        float left, right, top, bottom;
+    };
 
-struct Border {
-    float width;
-    SDL_Color color;
-};
+    struct Border {
+        float width;
+        SDL_Color color;
+    };
 
-struct Padding {
-    float left, right, top, bottom;
-};
+    struct Padding {
+        float left, right, top, bottom;
+    };
 
-struct Content {
-    float x, y, width, height;
-};
+    struct Content {
+        float x, y, width, height;
+    };
 
-struct Display {
-    std::string type;
-};
+    struct Display {
+        std::string type;
+    };
 
-struct DesiredDimensions {
-    int width = 0;
-    int height = 0;
-};
+    struct DesiredDimensions {
+        int width = 0;
+        int height = 0;
+    };
 
-struct Style {
-    Spacing padding;
-    Spacing margin;
+    struct Style {
+        Spacing padding;
+        Spacing margin;
 
-    int width, height;
-    
-    struct Grid {
-        int gridCols = 4;
-        int columnGap = 2;
-        int rowGap = 2;
-        int gridRows = 0;
+        int width, height;
         
-        struct GridCell {
-            int width;
-            int height;
-        } gridCell;
+        struct Grid {
+            int gridCols = 4;
+            int columnGap = 2;
+            int rowGap = 2;
+            int gridRows = 0;
+            
+            struct GridCell {
+                int width;
+                int height;
+            } gridCell;
 
-    } grid;
+        } grid;
 
-    int gap;
-    std::string background_color;
-};
+        int gap;
+        std::string background_color;
+    };
 
-class Widget {
-protected:
-    Rect bounds;
-    Rect baseBounds;
-    Rect contentBounds;
+    class Widget {
+        protected:
+            Rect bounds;
+            Rect baseBounds;
+            Rect contentBounds;
 
-    bool visible = true;
-    bool enabled = true;
+            bool visible = true;
+            bool enabled = true;
 
-    std::string id;
+            std::string id;
 
-    Widget* parent = nullptr;
-    std::vector<std::unique_ptr<Widget>> children;
+            Widget* parent = nullptr;
+            std::vector<std::unique_ptr<Widget>> children;
 
-    Margin margin;
-    Border border;
-    Padding padding;
-    Content content;
+            Margin margin;
+            Border border;
+            Padding padding;
+            Content content;
 
-    Display display;
+            Display display;
 
-    DesiredDimensions desiredDimensions;
+            DesiredDimensions desiredDimensions;
 
-    Style style;
+            Style style;
 
-public:
-    Widget(std::string id, Rect rect);
-    virtual ~Widget();
+        public:
+            Widget(std::string id, Rect rect);
+            virtual ~Widget();
 
-    virtual void update(float deltaTime);
+            virtual void update(float deltaTime);
 
-    virtual void draw(kito::Graphics::Renderer& renderer) = 0;
-    virtual void handleEvent(const KitoEvent& event) = 0;
+            virtual void draw(kito::Graphics::Renderer& renderer) = 0;
+            virtual void handleEvent(const KitoEvent& event) = 0;
 
-    virtual void setAttribute(const std::string& name, const std::string& value);
+            virtual void setAttribute(const std::string& name, const std::string& value);
 
-    virtual bool handleMouseClick(SDL_Event& event, float x, float y);
+            virtual bool handleMouseClick(SDL_Event& event, float x, float y);
 
-    const SDL_Rect getRect() const;
-    SDL_Rect setRect(float x, float y, float w, float h);
+            const SDL_Rect getRect() const;
+            SDL_Rect setRect(float x, float y, float w, float h);
 
-    Rect getBaseBounds() const;
-    Rect getBounds() const;
+            Rect getBaseBounds() const;
+            Rect getBounds() const;
 
-    Rect getContentBounds() const;
+            Rect getContentBounds() const;
 
-    void updateContentBounds(float x, float y, float w, float h);
-    void updateComputedBounds(float x, float y, float w, float h);
+            void updateContentBounds(float x, float y, float w, float h);
+            void updateComputedBounds(float x, float y, float w, float h);
 
-    std::string getId() const;
+            std::string getId() const;
 
-    Widget* getParent() const;
+            Widget* getParent() const;
+            
+            Widget* findTarget(float x, float y);
 
-    void addChild(std::unique_ptr<Widget> child);
-    const std::vector<std::unique_ptr<Widget>>& getChildren() const;
+            void addChild(std::unique_ptr<Widget> child);
+            const std::vector<std::unique_ptr<Widget>>& getChildren() const;
 
-    virtual void onClick();
+            virtual void onClick();
 
-    void setBorder(float width, SDL_Color color);
-    Border getBorder() const;
+            void setBorder(float width, SDL_Color color);
+            Border getBorder() const;
 
-    void setMargin(float left, float right, float top, float bottom);
-    Margin getMargin() const;
+            void setMargin(float left, float right, float top, float bottom);
+            Margin getMargin() const;
 
-    Padding getPadding() const;
-    void setPadding(float left, float right, float top, float bottom);
+            Padding getPadding() const;
+            void setPadding(float left, float right, float top, float bottom);
 
-    Content getContent() const;
-    void setContent(float width, float height);
+            Content getContent() const;
+            void setContent(float width, float height);
 
-    Display getDisplay() const;
-    void setDisplay(std::string displayType);
+            Display getDisplay() const;
+            void setDisplay(std::string displayType);
 
-    DesiredDimensions getDesiredDimensions() const;
-    void setDesiredDimensions(int width, int height);
+            DesiredDimensions getDesiredDimensions() const;
+            void setDesiredDimensions(int width, int height);
 
-    Style getBakedStyle() const;
+            Style getBakedStyle() const;
 
-}; 
+            bool isHit(float px, float py) const;
+    };
 
 }
