@@ -53,7 +53,7 @@ namespace kito::Graphics {
                 widgetRects.push_back(widget->getRect());
             }
 
-            std::cout << "Widget Rect: (" << widget->getRect().x << ", " << widget->getRect().y << ") size (" << widget->getRect().w << "x" << widget->getRect().h << ")\n";
+            // std::cout << "Widget Rect: (" << widget->getRect().x << ", " << widget->getRect().y << ") size (" << widget->getRect().w << "x" << widget->getRect().h << ")\n";
         }
 
         msanifu.computeLayout(widgets, window);

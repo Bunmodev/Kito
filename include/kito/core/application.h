@@ -9,6 +9,7 @@
 #include <kito/services/viewManager.h>
 #include <kito/services/vfs.h>
 #include <memory>
+#include <SDL3_ttf/SDL_ttf.h> 
 
 
 namespace kito {

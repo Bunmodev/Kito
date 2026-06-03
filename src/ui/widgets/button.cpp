@@ -55,6 +55,7 @@ namespace kito::ui {
 
     void Button::draw(kito::Graphics::Renderer& renderer) {
         auto rect = getRect();
+        auto contentRect = getContentBounds();
         bool pressed = (state == ButtonState::Pressed);
         bool hover   = (state == ButtonState::Hover);
 
@@ -65,7 +66,13 @@ namespace kito::ui {
         float w = rect.w - offset * 2;
         float h = rect.h - offset * 2;
 
+        float content_x = contentBounds.x;
+        float content_y = contentBounds.y;
+        float content_w = contentBounds.width;
+        float content_h = contentBounds.height;
+
         SDL_Color faceColor;
+        SDL_Color contentColor = {255, 255, 0, 255};
 
         // LOUD STATE COLORS
         if (pressed) {
@@ -80,13 +87,8 @@ namespace kito::ui {
         }
 
         renderer.submit({x, y, w, h}, faceColor, 1);
-
-        // Also draw the ORIGINAL bounds so we can see offset
-        // renderer.submit(
-        //     {(float)rect.x, (float)rect.y, (float)rect.w, (float)rect.h},
-        //     {255,255,0,255}, // yellow border
-        //     5
-        // );
+        // renderer.submit({content_x, content_y, content_w, content_h}, contentColor, 1);
+        
     }
 
 }

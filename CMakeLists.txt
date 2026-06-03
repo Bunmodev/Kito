@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(external/SDL)
 add_subdirectory(external/yaml-cpp)
+set(SDL_TTF_HARFBUZZ ON CACHE BOOL "Use HarfBuzz for text shaping" FORCE)
+
+add_subdirectory(external/SDL_ttf)
 
 set(ENGINE_SRC 
     "src/core/input.cpp"
@@ -38,8 +41,9 @@ add_library(kito STATIC ${ENGINE_SRC})
 
 target_link_libraries(kito
    PUBLIC SDL3::SDL3  
+   PUBLIC SDL3_ttf::SDL3_ttf
    PUBLIC yaml-cpp
-)
+) 
 
 target_include_directories(kito PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include

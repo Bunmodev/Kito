@@ -22,6 +22,7 @@ namespace kito {
         
         std::cout << "app init sucessfully" << std::endl;
         
+        TTF_Init();
         m_renderer = std::make_unique<Graphics::Renderer>(m_window->GetRenderer());
         m_renderer->clear(30, 30, 30);
         m_viewManager->renderView(*m_renderer, *m_window);
@@ -42,8 +43,7 @@ namespace kito {
                 m_currentEvent = kEvent;
 
                 if (kEvent.type == KitoEvent::Type::Quit) {
-                    m_running = false; // The heart stops beating
-                    m_window->setRunning(false); // The window closes
+                    shutdown();
                 } else {
                     // m_eventQueue.push_back(kEvent);
                     std::cout << "Event: " << static_cast<int>(kEvent.type) << "\n";
@@ -58,6 +58,12 @@ namespace kito {
 
             
         }
+    }
+
+    void Application::shutdown() {
+        m_running = false; // The heart stops beating
+        m_window->setRunning(false); // The window closes
+        TTF_Quit();
     }
 
 }

@@ -113,6 +113,7 @@ namespace kito::ui {
             Rect getBounds() const;
 
             Rect getContentBounds() const;
+            SDL_Rect setRect(float x, float y, float w, float h);
 
             void updateContentBounds(float x, float y, float w, float h);
             void updateComputedBounds(float x, float y, float w, float h);

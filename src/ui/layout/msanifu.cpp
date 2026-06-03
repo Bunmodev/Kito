@@ -8,7 +8,7 @@ namespace kito::layout {
         // Placeholder: Just print the widget positions for now
         std::cout << "Applying Msanifu layout to " << widgets.size() << " widgets:\n";
         for (const auto& w : widgets) {
-            std::cout << " - Widget at (" << w.x << ", " << w.y << ") size (" << w.w << "x" << w.h << ")\n";
+            // std::cout << " - Widget at (" << w.x << ", " << w.y << ") size (" << w.w << "x" << w.h << ")\n";
         }
     }
 
